@@ -1,4 +1,4 @@
-//package connect4
+package connect4
 
 
 // Representation
@@ -33,7 +33,6 @@ class Connect4Class(width: Int = 6, height: Int = 5)  {
         if (connect4Grid(i)(action) == 0){
           connect4Grid(i)(action) = playerTurn
           changeTurn()
-          visualizeGrid()
           return
         }
       }
