@@ -1,4 +1,4 @@
-package connect4
+//package connect4
 
 
 // Representation
@@ -42,29 +42,96 @@ class Connect4Class(width: Int = 6, height: Int = 5)  {
 
   def checkHorizontal(player: Int): Boolean = {
     for (row <- connect4Grid){
-      println(row.mkString("|"))
       var count = 0
       for(b <- row.indices){
-        print(row(b))
         if (count == 0 && row(b) == player){
           count = 1
-          println("---A")
         } else if (b > 0 && row(b) == player && row(b-1) == player) {
           count += 1
-          println("---B")
           if (count >= 4) {return true}
         } else {
           count = 0
-          println("---C")
         }
       }
-
     }
     return false
   }
 
-  def checkVictory(player: Int): Boolean = {
+  def checkVertical(player: Int): Boolean = {
+    for (col <- connect4Grid(0).indices){
+      var count = 0
+      for(b <- connect4Grid.indices){
+        if (count == 0 && connect4Grid(b)(col) == player){
+          count = 1
+        } else if (b > 0 && connect4Grid(b)(col) == player && connect4Grid(b-1)(col) == player) {
+          count += 1
+          if (count >= 4) {return true}
+        } else {
+          count = 0
+        }
+      }
+    }
     return false
+  }
+
+  def checkLeftDiagSingle(player: Int, x: Int, y: Int): Boolean = {
+    var xCount = x
+    var yCount = y
+    var count  = 0
+
+    while (xCount < connect4Grid(0).length && yCount < connect4Grid.length){
+      if (count == 0 && connect4Grid(yCount)(xCount) == player){
+        count += 1
+      } else if (xCount > x && yCount > y && connect4Grid(yCount)(xCount) == player && connect4Grid(yCount-1)(xCount-1) == player) {
+        count += 1
+      } else {
+        count = 0
+      }
+      if (count >= 4){
+        return true
+      }
+      xCount += 1
+      yCount += 1
+    }
+    false
+  }
+
+  def checkRightDiagSingle(player: Int, x: Int, y: Int): Boolean = {
+    var xCount = x
+    var yCount = y
+    var count  = 0
+
+    while (xCount >= 0 && yCount < connect4Grid.length){
+      if (count == 0 && connect4Grid(yCount)(xCount) == player){
+        count += 1
+      } else if (xCount < x && yCount > y && connect4Grid(yCount)(xCount) == player && connect4Grid(yCount-1)(xCount+1) == player) {
+        count += 1
+      } else {
+        count = 0
+      }
+      if (count >= 4){
+        return true
+      }
+      xCount -= 1
+      yCount += 1
+    }
+    false
+  }
+
+  def checkAllDiagonals(player: Int): Boolean = {
+    for (x <- 0 to connect4Grid(0).length - 1 ){
+      if (checkLeftDiagSingle(player, x, 0)) {return true}
+      if (checkRightDiagSingle(player, x, 0)) {return true}
+    }
+    for (y <- 0 to connect4Grid.length - 1){
+      if (checkLeftDiagSingle(player, 0, y)) {return true}
+      if (checkRightDiagSingle(player, connect4Grid(0).length - 1, y)) {return true}
+    }
+    false
+  }
+
+  def checkVictory(player: Int): Boolean = {
+    return (checkHorizontal(player) || checkVertical(player)) || checkAllDiagonals(player)
   }
 }
 
