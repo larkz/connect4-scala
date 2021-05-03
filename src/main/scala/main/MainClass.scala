@@ -1,25 +1,37 @@
 package main
 
 import etl.SampleClass
+import connect4.Connect4Class
 
 class MainClass extends Serializable {
 }
 
 object MainClass extends Serializable {
+  val c4Obj = new Connect4Class()
 
   def main(args: Array[String]): Unit = {
 
-    println("Feature Ingest Main Routine: ")
-    val dummy = args(0)
-    dummy match {
-      case "sampleclass" => sampleMainMethod(args(1))
-      case _ => throw new ClassNotFoundException(s"$dummy entry key does not exist !")
-    }
-  }
+    /*
+    c4Obj.playAction(3, 1)
+    c4Obj.playAction(3, 1)
+    c4Obj.playAction(3, 1)
+    c4Obj.playAction(3, 1)
 
-  def sampleMainMethod(arg1: String): String = {
-    val sClass = new SampleClass()
-    sClass.sampleMethod(arg1)
+    c4Obj.visualizeGrid()
+     */
+
+    val c4Obj = new Connect4Class()
+    c4Obj.connect4Grid = Array(
+      Array(0, 0, 0, 2, 0, 0, 0),
+      Array(1, 2, 2, 1, 0, 0, 0),
+      Array(2, 2, 2, 1, 0, 0, 0),
+      Array(1, 1, 1, 2, 0, 0, 0),
+      Array(1, 2, 1, 2, 2, 0, 0),
+      Array(1, 2, 1, 2, 1, 0, 0)
+    )
+    c4Obj.visualizeGrid()
+    println(c4Obj.checkVictory(2))
+
   }
 }
 

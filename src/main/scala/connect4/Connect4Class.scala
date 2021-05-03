@@ -7,7 +7,7 @@ package connect4
 // 2: Player 2
 
 
-class Connect4Class(width: Int = 6, height: Int = 5)  {
+class Connect4Class(width: Int = 7, height: Int = 6)  {
 
   var connect4Grid = Array.fill(height)(Array.fill(width)(0))
   val legalActions = connect4Grid(0).indices.toList
@@ -24,6 +24,7 @@ class Connect4Class(width: Int = 6, height: Int = 5)  {
 
   def visualizeGrid(): Unit = {
     print(connect4Grid.map(_.mkString("|")).mkString("\n"))
+    println()
   }
 
   def playAction(action: Int, playerTurn: Int = inducedPlayerTurn): Unit = {

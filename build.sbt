@@ -9,9 +9,10 @@ val sparkVersion = "3.0.1"
 libraryDependencies ++= Seq(
   "io.spray" %% "spray-json" % "1.3.3",
   "com.typesafe" % "config" % "1.2.1"
+  //"org.apache.maven.plugins" % "maven-jar-plugin" % "3.2.0"
 )
 
-unmanagedJars in Compile += file(Path.userHome + "/jars/lib-1.0-SNAPSHOT.jar")
+// unmanagedJars in Compile += file(Path.userHome + "/jars/lib-1.0-SNAPSHOT.jar")
 
 resolvers += Classpaths.typesafeReleases
 
