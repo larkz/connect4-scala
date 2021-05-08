@@ -9,14 +9,13 @@ import java.util.Collection
 import mcts.MDP
 import collection.JavaConversions._
 
+// Always optimize for player 1
+class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] {
 
-class Connect4MDP(startingState: Connect4State,
-                  optimizeForPlayerOne: Boolean) extends MDP[Connect4State, Int] {
-
-  val controller = new Connect4Class()
+  val controller = new Connect4Class(startingState.grid)
 
   override def actions(state: Connect4State): Collection[Int] = {
-    val actionIndex  = 0 to 6 toArray
+    val actionIndex  = controller.legalActions
     // val buf = scala.collection.mutable.ListBuffer.empty[Int]
     val actionIndexJava: java.util.Collection[Int] = actionIndex.toSeq
     actionIndexJava //.toList.asJava
@@ -27,10 +26,20 @@ class Connect4MDP(startingState: Connect4State,
   }
 
   override def isTerminal(state: Connect4State): Boolean = {
-    state.grid.forall(_.forall(_ > 0))
+
+    if (controller.connect4Grid.forall(_.forall(_ > 0))) {
+      controller.resetBoard()
+      true
+    }
+    else if (controller.checkVictory(1) || controller.checkVictory(2)){
+      controller.resetBoard()
+      true
+    } else {
+      false
+    }
   }
 
-  override def transition(state: Connect4State, action: Int): Connect4State ={
+  override def transition(state: Connect4State, action: Int): Connect4State = {
     controller.playAction(action)
     new Connect4State(controller.connect4Grid)
   }
@@ -38,11 +47,11 @@ class Connect4MDP(startingState: Connect4State,
   // How do the nullable types get mapped over from Kotlin ?
   // Player1 is always human, for now
   override def reward(previousState: Connect4State, action: Int, state: Connect4State): Double = {
-
-    if (controller.checkVictory(1)) {
+    if (controller.checkVictory(1, state.grid)) {
       return 1.0
+    } else if (controller.checkVictory(2)){
+      return -1.0
     }
-    0.0
+    return 0.0
   }
-
 }
