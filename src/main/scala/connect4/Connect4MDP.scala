@@ -12,7 +12,7 @@ import collection.JavaConversions._
 // Always optimize for player 1
 class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] {
 
-  val controller = new Connect4Class(startingState.grid)
+  val controller = new Connect4Class(startingState.grid.map(_.clone))
 
   override def actions(state: Connect4State): Collection[Int] = {
     val actionIndex  = controller.legalActions
@@ -49,7 +49,7 @@ class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] 
   override def reward(previousState: Connect4State, action: Int, state: Connect4State): Double = {
     if (controller.checkVictory(1, state.grid)) {
       return 1.0
-    } else if (controller.checkVictory(2)){
+    } else if (controller.checkVictory(2, state.grid)){
       return -1.0
     }
     return 0.0
