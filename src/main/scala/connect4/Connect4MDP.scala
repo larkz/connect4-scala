@@ -27,8 +27,6 @@ class Connect4MDP(controller: Connect4Class) extends MDP[Connect4State, Int] {
 
   override def isTerminal(state: Connect4State): Boolean = {
 
-    
-
     if (controller.connect4Grid.forall(_.forall(_ > 0))) {
       controller.resetBoard()
       true
