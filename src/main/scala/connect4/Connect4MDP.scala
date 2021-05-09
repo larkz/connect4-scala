@@ -9,10 +9,10 @@ import java.util.Collection
 import mcts.MDP
 import collection.JavaConversions._
 
-// Always optimize for player 1
-class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] {
+// Always optimize for player
+class Connect4MDP(controller: Connect4Class) extends MDP[Connect4State, Int] {
 
-  val controller = new Connect4Class(startingState.grid.map(_.clone))
+  val startingState = new Connect4State(controller.connect4Grid.map(_.clone))
 
   override def actions(state: Connect4State): Collection[Int] = {
     val actionIndex  = controller.legalActions
@@ -26,6 +26,8 @@ class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] 
   }
 
   override def isTerminal(state: Connect4State): Boolean = {
+
+    
 
     if (controller.connect4Grid.forall(_.forall(_ > 0))) {
       controller.resetBoard()
@@ -41,7 +43,7 @@ class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] 
 
   override def transition(state: Connect4State, action: Int): Connect4State = {
     controller.playAction(action)
-    new Connect4State(controller.connect4Grid)
+    new Connect4State(controller.connect4Grid.map(_.clone))
   }
 
   // How do the nullable types get mapped over from Kotlin ?
