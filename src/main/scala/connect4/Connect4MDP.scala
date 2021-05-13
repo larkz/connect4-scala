@@ -10,48 +10,43 @@ import mcts.MDP
 import collection.JavaConversions._
 
 // Always optimize for player
-class Connect4MDP(controller: Connect4Class) extends MDP[Connect4State, Int] {
+class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] {
 
-  val startingState = new Connect4State(controller.connect4Grid.map(_.clone))
+  // val startingState = new Connect4State(controller.connect4Grid.map(_.clone))
 
   override def actions(state: Connect4State): Collection[Int] = {
-    val actionIndex  = controller.legalActions
-    // val buf = scala.collection.mutable.ListBuffer.empty[Int]
-    val actionIndexJava: java.util.Collection[Int] = actionIndex.toSeq
-    actionIndexJava //.toList.asJava
+    startingState.grid(0).indices.toList
   }
 
   override def initialState(): Connect4State = {
-    startingState
+    val initialState = new Connect4State(startingState.grid)
+    initialState
   }
 
   override def isTerminal(state: Connect4State): Boolean = {
+    val controller = new Connect4Class(state.grid.map(_.clone))
 
-    if (controller.connect4Grid.forall(_.forall(_ > 0))) {
-      controller.resetBoard()
-      true
-    }
-    else if (controller.checkVictory(1) || controller.checkVictory(2)){
-      controller.resetBoard()
-      true
-    } else {
-      false
-    }
+    if (controller.checkVictory(1, state.grid)) {controller.resetBoard(); return true}
+    if (controller.checkVictory(2, state.grid)) {controller.resetBoard(); return true}
+    if (state.grid.forall(_.forall(_ > 0))) {controller.resetBoard(); return true}
+
+    false
   }
 
   override def transition(state: Connect4State, action: Int): Connect4State = {
+    val controller = new Connect4Class(state.grid, state.playerTurn)
     controller.playAction(action)
-    new Connect4State(controller.connect4Grid.map(_.clone))
+    val nextState = if (controller.inducedPlayerTurn == 1) new Connect4State(controller.connect4Grid.map(_.clone)) else new Connect4State(controller.connect4Grid.map(_.clone), 2)
+    nextState
   }
 
   // How do the nullable types get mapped over from Kotlin ?
   // Player1 is always human, for now
   override def reward(previousState: Connect4State, action: Int, state: Connect4State): Double = {
-    if (controller.checkVictory(1, state.grid)) {
-      return 1.0
-    } else if (controller.checkVictory(2, state.grid)){
-      return -1.0
-    }
-    return 0.0
+    val controller = new Connect4Class(state.grid.map(_.clone), state.playerTurn)
+    if (controller.checkVictory(1, state.grid.map(_.clone))) {return 1.0}
+    if (controller.checkVictory(2, state.grid.map(_.clone))) {return -1.0}
+
+    0.0
   }
 }

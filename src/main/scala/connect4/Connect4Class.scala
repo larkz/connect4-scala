@@ -7,14 +7,14 @@ package connect4
 // 2: Player 2
 
 
-class Connect4Class(val initialGrid: Array[Array[Int]] = Array.fill(6)(Array.fill(7)(0)))  {
+class Connect4Class(val initialGrid: Array[Array[Int]] = Array.fill(6)(Array.fill(7)(0)), var inducedPlayerTurn: Int = 1)  {
 
   val width = initialGrid(0).length
   val height = initialGrid.length
 
   var connect4Grid = initialGrid.map(_.clone)
   val legalActions = connect4Grid(0).indices.toList
-  var inducedPlayerTurn = 1
+  // var inducedPlayerTurn = 1
 
   def getLegalActions(): List[Int] = {
     legalActions
@@ -122,19 +122,21 @@ class Connect4Class(val initialGrid: Array[Array[Int]] = Array.fill(6)(Array.fil
   }
 
   def checkAllDiagonals(player: Int, grid: Array[Array[Int]] = connect4Grid): Boolean = {
+    var retBool = false
     for (x <- 0 to grid(0).length - 1 ){
-      if (checkLeftDiagSingle(player, x, 0)) {return true}
-      if (checkRightDiagSingle(player, x, 0)) {return true}
+      if (checkLeftDiagSingle(player, x, 0)) {retBool = true}
+      if (checkRightDiagSingle(player, x, 0)) {retBool = true}
     }
+
     for (y <- 0 to grid.length - 1){
-      if (checkLeftDiagSingle(player, 0, y)) {return true}
-      if (checkRightDiagSingle(player, grid(0).length - 1, y)) {return true}
+      if (checkLeftDiagSingle(player, 0, y)) {retBool = true}
+      if (checkRightDiagSingle(player, grid(0).length - 1, y)) {retBool = true}
     }
-    false
+    return retBool
   }
 
   def checkVictory(player: Int, grid: Array[Array[Int]] = connect4Grid): Boolean = {
-    return (checkHorizontal(player, grid) || checkVertical(player, grid)) || checkAllDiagonals(player, grid)
+    return checkHorizontal(player, grid) || checkVertical(player, grid) || checkAllDiagonals(player, grid)
   }
 
   def resetBoard(): Unit = {
