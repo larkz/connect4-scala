@@ -12,14 +12,6 @@ object MainClass extends Serializable {
 
   def main(args: Array[String]): Unit = {
 
-    /*
-    c4Obj.playAction(3, 1)
-    c4Obj.playAction(3, 1)
-    c4Obj.playAction(3, 1)
-    c4Obj.playAction(3, 1)
-
-    c4Obj.visualizeGrid()
-     */
 
     /*
     c4Obj.connect4Grid = Array(
@@ -34,41 +26,14 @@ object MainClass extends Serializable {
     println(c4Obj.checkVictory(2))
     */
 
+    /*
+    c4Obj.playAction(3, 1)
+    c4Obj.playAction(3, 1)
+    c4Obj.playAction(3, 1)
+    c4Obj.playAction(3, 1)
 
-    val customConfig = Array(
-      Array(1, 1, 1, 2, 1, 0, 0),
-      Array(1, 2, 2, 1, 2, 0, 0),
-      Array(2, 2, 2, 1, 1, 0, 0),
-      Array(1, 1, 1, 2, 2, 0, 2),
-      Array(1, 2, 1, 2, 1, 1, 1),
-      Array(1, 2, 1, 2, 1, 2, 2)
-    )
-
-    val height = 6
-    val width = 7
-    val blackStartConfig = Array.fill(height)(Array.fill(width)(0))
-    // val c4State = new Connect4State(blackStartConfig)
-
-    val controller = new Connect4Class(blackStartConfig)
-    // println(controller.checkVictory(1))
-    // println(customConfig.forall(_.forall(_ > 0)))
-
-
-    // println(controller.checkVictory(2))
-
-
-    val c4MDP = new Connect4MDP(new Connect4State(blackStartConfig))
-
-    val statelessSolver = new StatelessSolver(
-      c4MDP,
-      800,
-      1.4,
-      1.0,
-      true
-    )
-    statelessSolver.constructTree(5)
-
-
+    c4Obj.visualizeGrid()
+     */
 
     // State tester
 
@@ -94,6 +59,33 @@ object MainClass extends Serializable {
 
 
   }
+
+  def configurationTest(): Unit = {
+    val customConfig = Array(
+      Array(1, 1, 1, 2, 1, 0, 0),
+      Array(1, 2, 2, 1, 2, 2, 0),
+      Array(2, 2, 2, 1, 2, 1, 0),
+      Array(1, 1, 1, 2, 2, 1, 2),
+      Array(1, 2, 1, 2, 1, 1, 1),
+      Array(1, 2, 1, 2, 1, 2, 2)
+    )
+
+    val height = 6
+    val width = 7
+    val blackStartConfig = Array.fill(height)(Array.fill(width)(0))
+
+    val c4MDP = new Connect4MDP(new Connect4State(customConfig))
+
+    val statelessSolver = new StatelessSolver(
+      c4MDP,
+      800,
+      1.4,
+      1.0,
+      true
+    )
+    statelessSolver.constructTree(5)
+  }
+
 }
 
 
