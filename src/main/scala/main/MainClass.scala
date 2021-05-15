@@ -2,7 +2,7 @@ package main
 
 import etl.SampleClass
 import connect4._
-import mcts.StatelessSolver
+import mcts.{AdvancedStatelessSolver, StatelessSolver}
 
 class MainClass extends Serializable {
 }
@@ -11,6 +11,8 @@ object MainClass extends Serializable {
   val c4Obj = new Connect4Class()
 
   def main(args: Array[String]): Unit = {
+
+    configurationTest()
 
 
     /*
@@ -56,16 +58,16 @@ object MainClass extends Serializable {
 
      */
 
-
-
   }
+
+
 
   def configurationTest(): Unit = {
     val customConfig = Array(
-      Array(1, 1, 1, 2, 1, 0, 0),
-      Array(1, 2, 2, 1, 2, 2, 0),
-      Array(2, 2, 2, 1, 2, 1, 0),
-      Array(1, 1, 1, 2, 2, 1, 2),
+      Array(1, 1, 0, 0, 0, 0, 0),
+      Array(1, 2, 2, 0, 0, 0, 0),
+      Array(2, 2, 2, 1, 0, 0, 0),
+      Array(1, 1, 1, 2, 2, 1, 0),
       Array(1, 2, 1, 2, 1, 1, 1),
       Array(1, 2, 1, 2, 1, 2, 2)
     )
@@ -76,14 +78,17 @@ object MainClass extends Serializable {
 
     val c4MDP = new Connect4MDP(new Connect4State(customConfig))
 
-    val statelessSolver = new StatelessSolver(
+    val solver = new Connect4Solver(
       c4MDP,
       800,
       1.4,
       1.0,
       true
     )
-    statelessSolver.constructTree(5)
+    solver.constructTree(300)
+    println(solver.getOptimalHorizon())
+
+    // println(solver)
   }
 
 }

@@ -15,7 +15,11 @@ class Connect4MDP(startingState: Connect4State) extends MDP[Connect4State, Int] 
   // val startingState = new Connect4State(controller.connect4Grid.map(_.clone))
 
   override def actions(state: Connect4State): Collection[Int] = {
-    startingState.grid(0).indices.toList
+    val topRow = state.grid(0).zipWithIndex.filter(_._1 == 0).map(_._2)
+    val availActions = topRow.toList
+    // val availActions = state.grid(0).indices.toList
+    // List(4,5,6)
+    availActions
   }
 
   override def initialState(): Connect4State = {
