@@ -1,6 +1,6 @@
 package connect4
 
-class Connect4State(gridInput: Array[Array[Int]]) {
+class Connect4State(gridInput: Array[Array[Int]], val playerTurn: Int = 1) {
 
   val grid = gridInput
 
