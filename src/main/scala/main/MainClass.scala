@@ -4,9 +4,11 @@ import etl.SampleClass
 import connect4._
 import mcts.{AdvancedStatelessSolver, StatelessSolver}
 
+/*
 class MainClass extends Serializable {
 }
 
+ */
 object MainClass extends Serializable {
   val c4Obj = new Connect4Class()
 
@@ -41,8 +43,6 @@ object MainClass extends Serializable {
 
       if (uberController.checkVictory(1) || uberController.checkVictory(2) || uberController.connect4Grid.forall(_.forall(_ > 0))) {keepGoing = false}
 
-
-
       i += 1
     }
 
@@ -55,7 +55,7 @@ object MainClass extends Serializable {
 
     val c4MDP = new Connect4MDP(new Connect4State(gridConfig, playerTurn))
 
-    val solver = new Connect4Solver(
+    val solver = new AdvancedStatelessSolver(
       c4MDP,
       800,
       1.4,
@@ -85,7 +85,7 @@ object MainClass extends Serializable {
 
     val c4MDP = new Connect4MDP(new Connect4State(customConfig))
 
-    val solver = new Connect4Solver(
+    val solver = new AdvancedStatelessSolver(
       c4MDP,
       800,
       1.4,

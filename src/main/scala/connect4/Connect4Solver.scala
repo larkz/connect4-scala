@@ -1,6 +1,6 @@
 package connect4
 
-import mcts._
+import mcts.{AdvancedStatelessSolver, MDP}
 
 import java.util
 import scala.collection.mutable
@@ -11,8 +11,8 @@ class Connect4Solver (
   simulationDepthLimit: Int,
   explorationConstant: Double,
   rewardDiscountFactor: Double,
-  verbose: Boolean)
-  extends AdvancedStatelessSolver[Connect4State, Int](mdp, simulationDepthLimit, explorationConstant, rewardDiscountFactor, verbose) {
+  verbose: Boolean) {
+  // extends AdvancedStatelessSolver[Connect4State, Int](mdp, simulationDepthLimit, explorationConstant, rewardDiscountFactor, verbose) {
 
   /*
   def getOptimalHorizon(): Iterable[Int] = {
