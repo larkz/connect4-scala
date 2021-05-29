@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   //"org.apache.maven.plugins" % "maven-jar-plugin" % "3.2.0"
 )
 
-// unmanagedJars in Compile += file(Path.userHome + "/jars/lib-1.0-SNAPSHOT.jar")
+// unmanagedJars in Compile += file(Path.userHome + "/lib/mctreesearch4j-1.0-SNAPSHOT.jar")
 
 resolvers += Classpaths.typesafeReleases
 

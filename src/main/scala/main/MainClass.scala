@@ -2,7 +2,7 @@ package main
 
 import etl.SampleClass
 import connect4._
-import mcts.{AdvancedStatelessSolver, StatelessSolver}
+import mctreesearch4j.{AdvancedStatelessSolver, StatelessSolver}
 
 /*
 class MainClass extends Serializable {
