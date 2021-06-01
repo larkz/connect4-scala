@@ -1,6 +1,6 @@
 package connect4
 
-import mctreesearch4j.{AdvancedStatelessSolver, MDP}
+import ca.aqtech.mctreesearch4j.{AdvancedStatelessSolver, MDP}
 
 import java.util
 import scala.collection.mutable

@@ -6,7 +6,7 @@ import scala.collection.mutable.MutableList
 
 // import collection.JavaConverters._
 import java.util.Collection
-import mctreesearch4j.MDP
+import ca.aqtech.mctreesearch4j.MDP
 import collection.JavaConversions._
 
 // Always optimize for player
