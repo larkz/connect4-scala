@@ -2,11 +2,13 @@ package main
 
 import etl.SampleClass
 import connect4._
-import mcts.{AdvancedStatelessSolver, StatelessSolver}
+import ca.aqtech.mctreesearch4j.{StatelessSolver}
 
+/*
 class MainClass extends Serializable {
 }
 
+ */
 object MainClass extends Serializable {
   val c4Obj = new Connect4Class()
 
@@ -41,8 +43,6 @@ object MainClass extends Serializable {
 
       if (uberController.checkVictory(1) || uberController.checkVictory(2) || uberController.connect4Grid.forall(_.forall(_ > 0))) {keepGoing = false}
 
-
-
       i += 1
     }
 
@@ -55,7 +55,7 @@ object MainClass extends Serializable {
 
     val c4MDP = new Connect4MDP(new Connect4State(gridConfig, playerTurn))
 
-    val solver = new Connect4Solver(
+    val solver = new StatelessSolver(
       c4MDP,
       800,
       1.4,
@@ -64,7 +64,7 @@ object MainClass extends Serializable {
     )
 
     solver.constructTree(99)
-    solver.getOptimalHorizon().toArray()(0).toString.toInt
+    solver.extractOptimalAction().toString.toInt
 
   }
 
@@ -85,7 +85,7 @@ object MainClass extends Serializable {
 
     val c4MDP = new Connect4MDP(new Connect4State(customConfig))
 
-    val solver = new Connect4Solver(
+    val solver = new StatelessSolver(
       c4MDP,
       800,
       1.4,
@@ -93,7 +93,7 @@ object MainClass extends Serializable {
       true
     )
     solver.constructTree(300)
-    println(solver.getOptimalHorizon())
+    println(solver.extractOptimalAction())
 
     // println(solver)
   }
